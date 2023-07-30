@@ -12,11 +12,11 @@ function chain(a, d)
 
 
 	# set of transition maticies
-	P = [fill(big(0.), length(S), length(S))]
-	for i in 1:size(P[1])[1]
+	P = [fill(0., length(S), length(S))]
+	for i in 1:length(S)
 		s = S[i]
 		dice = (clamp(s[1],0,3), clamp(s[2],0,2))
-		probs = battle(dice)
+		probs = map(x->Float64(x), battle(dice))
 		
 		if s[1] >= 2 && s[2] >= 2
 			P[1][i, S_index(s.-(0,2))] = probs[1]
@@ -26,6 +26,9 @@ function chain(a, d)
 		elseif s[1] > 0 && s[2] > 0 
 			P[1][i, S_index(s.-(0,1))] = probs[1]
 			P[1][i, S_index(s.-(1,0))] = probs[2]
+		
+		else
+			P[1][i,i] = 1;
 		end
 	end
 
@@ -41,5 +44,5 @@ function chain(a, d)
 		end
 	end
 
-	return P
+	return P, S
 end
