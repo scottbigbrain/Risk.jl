@@ -1,8 +1,8 @@
 include("risk.jl")
 include("markov_chain.jl")
 
-a, d = 3, 2
+attacker_troops, defender_troops = 3, 2
 
-P, S = chain(a,d)
+P, possible_states = chain(a,d)
 
 probs = map(x -> x[end, 1:end], P)
